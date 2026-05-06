@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vocabulary Quiz – Synonyms & Paraphrasing | Badawy Rabie</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f0f4f8;
+            color: #1e293b;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 960px;
+            margin: 30px auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+            padding: 30px 20px;
+        }
+        .logo { text-align: center; margin-bottom: 10px; }
+        .logo span {
+            display: inline-block;
+            background: #0d3b66;
+            color: white;
+            padding: 8px 24px;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        h1 { text-align: center; color: #0d3b66; margin: 10px 0 5px; }
+        .subtitle { text-align: center; color: #4a6fa5; margin-bottom: 15px; }
+        .student-id-box { text-align: center; margin: 15px 0; display: flex; justify-content: center; align-items: center; gap: 10px; flex-wrap: wrap; }
+        .student-id-box input { padding: 10px; border: 1px solid #ccc; border-radius: 8px; width: 200px; font-size: 1em; }
+        .student-id-box button { padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; background: #0d3b66; color: white; border: none; }
+        .tabs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 25px; border-bottom: 2px solid #e0e7ee; justify-content: center; }
+        .tab { padding: 10px 16px; background: transparent; border: none; cursor: pointer; font-weight: 600; color: #5b6e8c; border-radius: 8px 8px 0 0; font-size: 0.9em; transition: 0.2s; }
+        .tab.active { background: #0d3b66; color: white; }
+        .unit-section { display: none; animation: fadeIn 0.3s; }
+        .unit-section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .question { background: #f8fafc; border: 1px solid #e1e8f0; border-radius: 12px; padding: 15px 20px; margin-bottom: 12px; }
+        .question p { font-weight: 600; margin-bottom: 8px; }
+        .options label { display: block; padding: 8px 12px; margin: 4px 0; background: white; border: 1px solid #cad5e2; border-radius: 8px; cursor: pointer; transition: 0.2s; }
+        .options label:hover { background: #eef3f9; }
+        .options input[type="radio"] { margin-right: 8px; }
+        .feedback { margin-top: 8px; font-weight: 600; }
+        .correct { color: #15803d; } .incorrect { color: #b91c1c; }
+        .btn { background: #0d3b66; color: white; border: none; padding: 12px 30px; border-radius: 30px; font-weight: bold; cursor: pointer; margin: 10px 5px; transition: 0.2s; }
+        .btn:hover { background: #145a8c; }
+        .score-box { text-align: center; font-size: 1.3em; font-weight: bold; margin-top: 10px; }
+        #report-box { background: #f0f8ff; border: 2px solid #0d3b66; border-radius: 12px; padding: 20px; margin-top: 25px; display: none; text-align: center; }
+        #report-box h3 { color: #0d3b66; }
+        #report-content { font-size: 1.1em; line-height: 2; }
+        @media(max-width:600px) { .container { margin: 10px; padding: 20px 15px; } .tab { padding: 8px 10px; font-size: 0.8em; } }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="logo"><span>Quiz prepared by Badawy Rabie</span></div>
+    <h1>📘 Vocabulary Quiz – Synonyms & Paraphrasing</h1>
+    <p class="subtitle">12 units · 50 questions each · 600 items</p>
+
+    <div class="student-id-box">
+        <input type="text" id="student-id-input" placeholder="Enter your Student ID">
+        <button onclick="showReport()">📋 Show My Report</button>
+    </div>
+    <div id="report-box">
+        <h3>Student Report</h3>
+        <div id="report-content"></div>
+        <p style="margin-top:10px;"><em>(Screenshot or print this for your teacher)</em></p>
+    </div>
+
+    <div class="tabs" id="tab-container"></div>
+    <div id="units-container"></div>
+</div>
+
+<script>
+    const vocabData = {
+        "Unit 1": {
+            title: "Countries, Nationalities & Jobs – Synonyms & Paraphrase",
+            questions: [
+                { q: "A person who comes from Saudi Arabia is called ______.", opts: ["Saudi", "Arab", "Arabian", "Saudian"], c: 0 },
+                { q: "If someone is from Spain, we say they are ______.", opts: ["Spaniard", "Spanish", "Spanian", "Spanese"], c: 1 },
+                { q: "He comes from China. He is ______.", opts: ["Chinian", "Chinish", "China", "Chinese"], c: 3 },
+                { q: "What do you call a person who plays football for a living?", opts: ["footballer", "football player", "player", "sportsman"], c: 0 },
+                { q: "He designs buildings. He is an ______.", opts: ["accountant", "engineer", "architect", "artist"], c: 2 },
+                { q: "Her job is to serve customers in a shop. She is a ______.", opts: ["lawyer", "shop assistant", "waiter", "receptionist"], c: 1 },
+                { q: "The man who brings food and drinks in a restaurant is a ______.", opts: ["waiter", "shop assistant", "musician", "singer"], c: 0 },
+                { q: "Ali works with money and numbers. He is an ______.", opts: ["engineer", "accountant", "actor", "waiter"], c: 1 },
+                { q: "If you are from Italy, you are ______.", opts: ["Italy", "Italian", "Italish", "Italese"], c: 1 },
+                { q: "A woman from France is ______.", opts: ["French", "France", "Francian", "Frankish"], c: 0 },
+                { q: "My brother catches criminals. He is a ______.", opts: ["police officer", "firefighter", "doctor", "lawyer"], c: 0 },
+                { q: "A person who sings is a ______.", opts: ["songer", "singer", "music person", "instrumentalist"], c: 1 },
+                { q: "A man who performs in plays or films is an ______.", opts: ["actor", "actress", "acting man", "player"], c: 0 },
+                { q: "My father represents people in court. He is a ______.", opts: ["accountant", "lawyer", "engineer", "waiter"], c: 1 },
+                { q: "If you are from Japan, you are ______.", opts: ["Japan", "Japanese", "Japonese", "Japon"], c: 1 },
+                { q: "A person from Russia is ______.", opts: ["Russian", "Rusian", "Rus", "Rush"], c: 0 },
+                { q: "Reem says “My name is Reem Al-Qahtani.” Al-Qahtani is her ______.", opts: ["first name", "surname", "middle name", "nickname"], c: 1 },
+                { q: "When you write “O-M-A-R”, you are ______ your name.", opts: ["spelling", "saying", "writing", "pronouncing"], c: 0 },
+                { q: "A person from India is ______.", opts: ["Indian", "Indish", "Indi", "Hindu"], c: 0 },
+                { q: "A person from Egypt is ______.", opts: ["Egyptian", "Egyptish", "Egyp", "Egyi"], c: 0 },
+                { q: "My sister teaches children. She is a ______.", opts: ["teacher", "doctor", "nurse", "lawyer"], c: 0 },
+                { q: "A person from Pakistan is ______.", opts: ["Pakistani", "Pakistan", "Pak", "Paki"], c: 0 },
+                { q: "My uncle works in a hospital. He’s a ______.", opts: ["doctor", "waiter", "shop assistant", "pilot"], c: 0 },
+                { q: "A person from Australia is ______.", opts: ["Australian", "Australish", "Aussie", "Austrian"], c: 0 },
+                { q: "A person from Canada is ______.", opts: ["Canadian", "Canadese", "Canadish", "Canuck"], c: 0 },
+                { q: "A person who plays the piano is a ______.", opts: ["pianist", "musician", "piano man", "player"], c: 1 },
+                { q: "A person from Brazil is ______.", opts: ["Brazilian", "Brazilean", "Brazish", "Braz"], c: 0 },
+                { q: "My neighbor fixes electrical problems. He is an ______.", opts: ["electrician", "engineer", "plumber", "mechanic"], c: 0 },
+                { q: "A person from Poland is ______.", opts: ["Polish", "Polandian", "Polanese", "Polonian"], c: 0 },
+                { q: "A person from Turkey is ______.", opts: ["Turkish", "Turkey", "Turk", "Turkian"], c: 0 },
+                { q: "My cousin creates paintings. He is an ______.", opts: ["artist", "architect", "engineer", "actor"], c: 0 },
+                { q: "A person from Germany is ______.", opts: ["German", "Germany", "Germanish", "Deutsch"], c: 0 },
+                { q: "A person who cooks professionally in a restaurant is a ______.", opts: ["chef", "waiter", "musician", "farmer"], c: 0 },
+                { q: "A person from Iran is ______.", opts: ["Iranian", "Irani", "Persian", "Iraqi"], c: 0 },
+                { q: "My father flies aeroplanes. He is a ______.", opts: ["pilot", "driver", "astronaut", "engineer"], c: 0 },
+                { q: "A person from Mexico is ______.", opts: ["Mexican", "Mexic", "Spanish", "Mex"], c: 0 },
+                { q: "A person who designs buildings is an ______.", opts: ["architect", "engineer", "artist", "builder"], c: 0 },
+                { q: "A person from South Africa is ______.", opts: ["South African", "African", "Southish", "SA"], c: 0 },
+                { q: "My sister works at a hotel front desk. She is a ______.", opts: ["receptionist", "waiter", "manager", "cleaner"], c: 0 },
+                { q: "A person from Argentina is ______.", opts: ["Argentinian", "Argentina", "Argent", "Argen"], c: 0 },
+                { q: "My brother serves in the army. He is a ______.", opts: ["soldier", "police", "firefighter", "guard"], c: 0 },
+                { q: "A person from Malaysia is ______.", opts: ["Malaysian", "Malay", "Malayan", "Malays"], c: 0 },
+                { q: "The symbol @ in an email address is called ______.", opts: ["dot", "at", "and", "slash"], c: 1 },
+                { q: "A medical professional who treats animals is a ______.", opts: ["vet", "surgeon", "zoo doctor", "animal doctor"], c: 0 },
+                { q: "A person from Portugal is ______.", opts: ["Portuguese", "Portugal", "Portu", "Portish"], c: 0 },
+                { q: "A person who cuts and styles hair is a ______.", opts: ["hairdresser", "barber", "stylist", "cutter"], c: 0 },
+                { q: "A person from Morocco is ______.", opts: ["Moroccan", "Morocco", "Morocish", "Moor"], c: 0 },
+                { q: "The top manager in a company is often called the ______.", opts: ["CEO", "assistant", "receptionist", "boss"], c: 0 },
+                { q: "A person who delivers letters is a ______.", opts: ["postman", "mailer", "delivery man", "courier"], c: 0 },
+                { q: "Another word for “family name” is ______.", opts: ["surname", "nickname", "first name", "given name"], c: 0 }
+            ]
+        },
+        "Unit 2": {
+            title: "Everyday Objects & Family – Synonyms & Paraphrase",
+            questions: [
+                { q: "An item used to make phone calls is a ______.", opts: ["wallet", "mobile phone", "keys", "watch"], c: 1 },
+                { q: "Your father’s brother is your ______.", opts: ["cousin", "nephew", "uncle", "grandfather"], c: 2 },
+                { q: "A small case for holding money and cards is a ______.", opts: ["bottle", "wallet", "camera", "bag"], c: 1 },
+                { q: "The word “mum” refers to your ______.", opts: ["sister", "aunt", "mother", "daughter"], c: 2 },
+                { q: "Your mother’s daughter is your ______.", opts: ["sister", "aunt", "niece", "cousin"], c: 0 },
+                { q: "The metal object used to open a lock is a ______.", opts: ["wallet", "keys", "watch", "tissues"], c: 1 },
+                { q: "Your father’s father is your ______.", opts: ["grandson", "grandfather", "uncle", "nephew"], c: 1 },
+                { q: "A small piece of paper for a short note is a ______.", opts: ["sticky note", "notebook", "diary", "card"], c: 0 },
+                { q: "The device for taking photographs is a ______.", opts: ["camera", "wallet", "phone", "keys"], c: 0 },
+                { q: "An ______ card shows your personal details and photo.", opts: ["identity", "credit", "debit", "library"], c: 0 },
+                { q: "A container for carrying books is a ______.", opts: ["bag", "wallet", "bottle", "tissue"], c: 0 },
+                { q: "Your brother’s son is your ______.", opts: ["nephew", "niece", "cousin", "uncle"], c: 0 },
+                { q: "Your sister’s daughter is your ______.", opts: ["nephew", "niece", "cousin", "aunt"], c: 1 },
+                { q: "Your uncle’s children are your ______.", opts: ["siblings", "cousins", "nephews", "nieces"], c: 1 },
+                { q: "A small storage device for computer files is a ______.", opts: ["memory stick", "hard disk", "floppy", "card"], c: 0 },
+                { q: "A small clock worn on the wrist is a ______.", opts: ["watch", "ring", "bracelet", "band"], c: 0 },
+                { q: "The screen on the back of a camera is called the ______ screen.", opts: ["camera", "phone", "computer", "television"], c: 0 },
+                { q: "Soft pieces of paper for cleaning your nose are ______.", opts: ["tissues", "napkins", "paper", "cloth"], c: 0 },
+                { q: "A container for drinking water is a ______.", opts: ["bottle", "jug", "glass", "container"], c: 0 },
+                { q: "A plastic card that lets you borrow money is a ______ card.", opts: ["credit", "identity", "membership", "key"], c: 0 },
+                { q: "Your mother’s mother is your ______.", opts: ["grandmother", "great-grandmother", "aunt", "mother-in-law"], c: 0 },
+                { q: "Your father’s sister is your ______.", opts: ["aunt", "uncle", "cousin", "sister"], c: 0 },
+                { q: "A small pack of chewing gum is a ______.", opts: ["packet", "stick", "strip", "piece"], c: 0 },
+                { q: "A portable light for seeing in the dark is a ______.", opts: ["torch", "lamp", "candle", "flash"], c: 0 },
+                { q: "Your brothers and sisters are your ______.", opts: ["siblings", "cousins", "friends", "relatives"], c: 0 },
+                { q: "A rectangular bag with a strap over the shoulder is a ______.", opts: ["shoulder bag", "backpack", "suitcase", "handbag"], c: 0 },
+                { q: "A pen used on a whiteboard is a ______.", opts: ["marker", "pen", "pencil", "chalk"], c: 0 },
+                { q: "Your brother’s wife is your ______.", opts: ["sister-in-law", "sister", "aunt", "niece"], c: 0 },
+                { q: "A small piece of metal used to open a lock is a ______.", opts: ["key", "pin", "screw", "nail"], c: 0 },
+                { q: "Your wife’s father is your ______.", opts: ["father-in-law", "father", "uncle", "grandfather"], c: 0 },
+                { q: "A small book for daily notes is a ______.", opts: ["diary", "journal", "sticky note", "calendar"], c: 0 },
+                { q: "Your husband’s mother is your ______.", opts: ["mother-in-law", "mother", "grandmother", "aunt"], c: 0 },
+                { q: "A portable computer is a ______.", opts: ["laptop", "desktop", "tablet", "notepad"], c: 0 },
+                { q: "Your son’s son is your ______.", opts: ["grandson", "son", "nephew", "grandchild"], c: 0 },
+                { q: "Headphones are used to listen to music privately. Another word is ______.", opts: ["earphones", "speakers", "microphones", "radios"], c: 0 },
+                { q: "Your daughter’s daughter is your ______.", opts: ["granddaughter", "daughter", "niece", "grandchild"], c: 0 },
+                { q: "A flat, round piece of metal used as money is a ______.", opts: ["coin", "note", "bill", "cheque"], c: 0 },
+                { q: "A large cupboard for clothes is a ______.", opts: ["wardrobe", "bag", "suitcase", "drawer"], c: 0 },
+                { q: "Your mother’s father is your ______.", opts: ["grandfather", "great-grandfather", "uncle", "father"], c: 0 },
+                { q: "A small clock worn on the wrist is a ______.", opts: ["watch", "ring", "bracelet", "clock"], c: 0 },
+                { q: "Your sister’s son is your ______.", opts: ["nephew", "niece", "cousin", "son"], c: 0 },
+                { q: "A bag carried on the back is a ______.", opts: ["backpack", "shoulder bag", "suitcase", "handbag"], c: 0 },
+                { q: "Your aunt’s children are your ______.", opts: ["cousins", "siblings", "nephews", "nieces"], c: 0 },
+                { q: "An ______ card proves who you are.", opts: ["identity", "credit", "membership", "key"], c: 0 },
+                { q: "Your brother’s daughter is your ______.", opts: ["niece", "nephew", "cousin", "daughter"], c: 0 },
+                { q: "A soft paper for cleaning your hands is a ______.", opts: ["tissue", "napkin", "wipe", "cloth"], c: 0 },
+                { q: "Your grandfather’s father is your ______.", opts: ["great-grandfather", "grandfather", "uncle", "father"], c: 0 },
+                { q: "The device for taking photos is a ______.", opts: ["camera", "photo machine", "picture box", "lens"], c: 0 },
+                { q: "Your mother’s sister is your ______.", opts: ["aunt", "uncle", "cousin", "grandmother"], c: 0 },
+                { q: "A small metal device to open a car door is a ______.", opts: ["key", "remote", "fob", "button"], c: 0 }
+            ]
+        },
+        "Unit 3": {
+            title: "Daily Routine & Time – Synonyms & Paraphrase",
+            questions: [
+                { q: "I get out of bed at 6:00. I ______ up at 6:00.", opts: ["go", "get", "have", "do"], c: 1 },
+                { q: "7:15 can be said as a ______ past seven.", opts: ["quarter", "half", "twenty", "ten"], c: 0 },
+                { q: "“I have breakfast” means I ______ breakfast.", opts: ["eat", "drink", "cook", "make"], c: 0 },
+                { q: "9:30 is ______ past nine.", opts: ["half", "quarter", "twenty", "ten"], c: 0 },
+                { q: "I travel to work by bus. I go ______ bus.", opts: ["on", "with", "by", "in"], c: 2 },
+                { q: "9:55 means five ______ ten.", opts: ["to", "past", "after", "before"], c: 0 },
+                { q: "She takes a shower every evening. She ______ a shower.", opts: ["has", "does", "makes", "gets"], c: 0 },
+                { q: "2:20 is twenty ______ two.", opts: ["past", "to", "after", "before"], c: 0 },
+                { q: "We eat dinner at 8 p.m. We ______ dinner.", opts: ["have", "take", "cook", "make"], c: 0 },
+                { q: "10:50 is ten ______ eleven.", opts: ["to", "past", "after", "before"], c: 0 },
+                { q: "He goes to bed late. He ______ to bed late.", opts: ["goes", "gets", "has", "takes"], c: 0 },
+                { q: "5:45 is a ______ to six.", opts: ["quarter", "half", "twenty", "ten"], c: 0 },
+                { q: "I often go shopping on Fridays. “Often” means I do it ______.", opts: ["frequently", "rarely", "never", "always"], c: 0 },
+                { q: "3:25 means 25 ______ three.", opts: ["past", "to", "after", "before"], c: 0 },
+                { q: "They have a picnic on the weekend. They ______ a picnic.", opts: ["have", "go", "get", "take"], c: 0 },
+                { q: "4:05 means five ______ four.", opts: ["past", "to", "after", "before"], c: 0 },
+                { q: "My mother does the housework. “Housework” includes cleaning and ______.", opts: ["tidying", "sleeping", "eating", "watching"], c: 0 },
+                { q: "6:10 is ten ______ six.", opts: ["past", "to", "after", "before"], c: 0 },
+                { q: "I brush my teeth at night. I ______ them clean.", opts: ["make", "do", "have", "take"], c: 0 },
+                { q: "1:30 is ______ past one.", opts: ["half", "quarter", "twenty", "ten"], c: 0 },
+                { q: "We take a break at work. We ______ a break.", opts: ["have", "take", "get", "do"], c: 0 },
+                { q: "3:00 can be expressed as three ______.", opts: ["o'clock", "hours", "sharp", "zero"], c: 0 },
+                { q: "She does her homework after dinner. She completes her ______.", opts: ["assignments", "housework", "job", "tasks"], c: 0 },
+                { q: "8:15 is a ______ past eight.", opts: ["quarter", "half", "twenty", "ten"], c: 0 },
+                { q: "I rarely watch TV in the morning. “Rarely” means ______.", opts: ["seldom", "always", "often", "never"], c: 0 },
+                { q: "8:35 is twenty-five ______ nine.", opts: ["to", "past", "after", "before"], c: 0 },
+                { q: "He catches the bus to university. He ______ the bus.", opts: ["takes", "drives", "rides", "flies"], c: 0 },
+                { q: "3:50 is ten ______ four.", opts: ["to", "past", "after", "before"], c: 0 },
+                { q: "We meet our friends at the weekend. We ______ together.", opts: ["get", "see", "visit", "join"], c: 0 },
+                { q: "11:40 equals twenty ______ twelve.", opts: ["to", "past", "after", "before"], c: 0 },
+                { q: "I never drink coffee at night. I ______ it.", opts: ["avoid", "like", "enjoy", "love"], c: 0 },
+                { q: "1:05 is five ______ one.", opts: ["past", "to", "after", "before"], c: 0 },
+                { q: "My father looks at the newspaper every morning. He ______ it.", opts: ["reads", "sees", "watches", "views"], c: 0 },
+                { q: "12:30 at night is ______.", opts: ["midnight", "noon", "half past twelve", "twelve thirty"], c: 0 },
+                { q: "They go for a walk after dinner. They ______ a walk.", opts: ["take", "go", "have", "make"], c: 0 },
+                { q: "10:10 is ten ______ ten.", opts: ["past", "to", "after", "before"], c: 0 },
+                { q: "I often check emails at work. I ______ them.", opts: ["look at", "send", "read", "write"], c: 0 },
+                { q: "5:35 is twenty-five ______ six.", opts: ["to", "past", "after", "before"], c: 0 },
+                { q: "She gives her baby a bath every night. She ______ the baby.", opts: ["bathes", "washes", "cleans", "showers"], c: 0 },
+                { q: "12:00 during the day is called ______.", opts: ["noon", "midnight", "twelve o'clock", "lunchtime"], c: 0 },
+                { q: "We have lunch at the restaurant. We ______ lunch.", opts: ["eat", "take", "get", "make"], c: 0 },
+                { q: "12:00 at night is called ______.", opts: ["midnight", "noon", "twelve o'clock", "bedtime"], c: 0 },
+                { q: "I take my dog for a walk. I ______ the dog.", opts: ["walk", "run", "exercise", "lead"], c: 0 },
+                { q: "6:45 is another way to say ______ to seven.", opts: ["quarter", "half", "twenty", "ten"], c: 0 },
+                { q: "He often has a nap in the afternoon. He takes a ______.", opts: ["short sleep", "meal", "break", "shower"], c: 0 },
+                { q: "3:25 is ______.", opts: ["three twenty-five", "three thirty-five", "two twenty-five", "four twenty-five"], c: 0 },
+                { q: "We leave the house at 7:30 a.m. We ______.", opts: ["depart", "go", "exit", "set off"], c: 0 },
+                { q: "11:50 can be said as ten ______ twelve.", opts: ["to", "past", "after", "before"], c: 0 },
+                { q: "I check my emails before lunch. I ______ them.", opts: ["look at", "read", "see", "open"], c: 0 },
+                { q: "2:15 is another way to say a ______ past two.", opts: ["quarter", "half", "twenty", "ten"], c: 0 }
+            ]
+        },
+        "Unit 4": {
+            title: "Likes, Dislikes & Activities – Synonyms & Paraphrase",
+            questions: [
+                { q: "I like spending time with friends. I enjoy their ______.", opts: ["company", "food", "games", "talk"], c: 0 },
+                { q: "She is fond of eating in restaurants. She ______ it.", opts: ["likes", "dislikes", "hates", "avoids"], c: 0 },
+                { q: "I enjoy playing computer games. I do it for ______.", opts: ["fun", "work", "study", "money"], c: 0 },
+                { q: "He loves going for walks. He is ______ about walking.", opts: ["crazy", "indifferent", "bored", "tired"], c: 0 },
+                { q: "They like watching sport on TV. They are ______ in sport.", opts: ["interested", "bored", "tired", "excited"], c: 0 },
+                { q: "Winners are always positive. “Always” means they are positive ______.", opts: ["all the time", "sometimes", "rarely", "never"], c: 0 },
+                { q: "I hate getting up early on weekends. I can’t ______ it.", opts: ["stand", "like", "enjoy", "love"], c: 0 },
+                { q: "She works very hard. She is extremely ______.", opts: ["diligent", "lazy", "cheerful", "polite"], c: 0 },
+                { q: "He really enjoys meeting new people. He finds it ______.", opts: ["pleasant", "boring", "difficult", "tiring"], c: 0 },
+                { q: "I love listening to classical music. I am very ______ of it.", opts: ["fond", "bored", "tired", "afraid"], c: 0 },
+                { q: "They don’t mind taking the bus. They have no ______.", opts: ["objection", "love", "dislike", "hate"], c: 0 },
+                { q: "She never consumes coffee in the evening. She ______ it.", opts: ["avoids", "loves", "likes", "enjoys"], c: 0 },
+                { q: "I’m interested in learning Spanish. I have a strong ______.", opts: ["curiosity", "dislike", "boredom", "fear"], c: 0 },
+                { q: "He is keen on playing football. He is ______ about it.", opts: ["enthusiastic", "indifferent", "bored", "tired"], c: 0 },
+                { q: "I prefer tea to coffee. I like tea ______ than coffee.", opts: ["more", "less", "the same", "as much"], c: 0 },
+                { q: "She can’t stand queuing. She finds it ______.", opts: ["unbearable", "pleasant", "interesting", "exciting"], c: 0 },
+                { q: "My hobby is collecting stamps. I ______ stamps.", opts: ["gather", "make", "draw", "paint"], c: 0 },
+                { q: "They enjoy watching documentaries. They find them ______.", opts: ["informative", "boring", "useless", "dull"], c: 0 },
+                { q: "I don’t like getting up early. I find it ______.", opts: ["difficult", "easy", "pleasant", "simple"], c: 0 },
+                { q: "She adores reading novels. She has a great ______ for them.", opts: ["passion", "dislike", "hatred", "fear"], c: 0 },
+                { q: "He dislikes doing housework. He thinks it’s ______.", opts: ["boring", "exciting", "fun", "easy"], c: 0 },
+                { q: "We are fond of swimming. We enjoy it ______.", opts: ["very much", "a little", "not at all", "rarely"], c: 0 },
+                { q: "I’m not very good at drawing. I have little ______.", opts: ["skill", "interest", "time", "money"], c: 0 },
+                { q: "She is really into taking photos. She loves ______.", opts: ["photography", "music", "sport", "reading"], c: 0 },
+                { q: "He’s crazy about fast cars. He is ______ about them.", opts: ["obsessed", "bored", "indifferent", "tired"], c: 0 },
+                { q: "I can’t help laughing when I watch comedies. I can’t ______ myself.", opts: ["control", "stop", "help", "prevent"], c: 2 },
+                { q: "She avoids eating junk food. She ______ away from it.", opts: ["stays", "runs", "goes", "keeps"], c: 0 },
+                { q: "I look forward to seeing you. I am ______ about it.", opts: ["excited", "bored", "worried", "angry"], c: 0 },
+                { q: "He spends hours playing video games. He does it for a long ______.", opts: ["time", "period", "while", "moment"], c: 0 },
+                { q: "She enjoys dancing at parties. She finds it ______.", opts: ["entertaining", "boring", "tiring", "difficult"], c: 0 },
+                { q: "I’m tired of working late. I’m fed ______ with it.", opts: ["up", "down", "off", "out"], c: 0 },
+                { q: "He is bored with the same routine. He wants something ______.", opts: ["new", "old", "similar", "same"], c: 0 },
+                { q: "We are excited about the trip. We are looking ______ to it.", opts: ["forward", "back", "ahead", "around"], c: 0 },
+                { q: "She is afraid of snakes. She is ______ of them.", opts: ["scared", "fond", "keen", "interested"], c: 0 },
+                { q: "I’m proud of my son. I feel a sense of ______.", opts: ["achievement", "shame", "guilt", "anger"], c: 0 },
+                { q: "He is ashamed of his mistake. He feels ______.", opts: ["embarrassed", "proud", "happy", "satisfied"], c: 0 },
+                { q: "She is interested in fashion. She follows the latest ______.", opts: ["trends", "news", "sports", "politics"], c: 0 },
+                { q: "I’m worried about the exam. I feel ______.", opts: ["anxious", "confident", "relaxed", "calm"], c: 0 },
+                { q: "He is good at maths. He has a ______ for numbers.", opts: ["talent", "dislike", "fear", "hatred"], c: 0 },
+                { q: "She is married to a doctor. Her spouse is a ______.", opts: ["physician", "teacher", "lawyer", "engineer"], c: 0 },
+                { q: "I’m different from my brother. We are not the ______.", opts: ["same", "similar", "alike", "identical"], c: 0 },
+                { q: "He is famous for his paintings. He is well-______.", opts: ["known", "off", "read", "travelled"], c: 0 },
+                { q: "She is responsible for the project. She is in ______.", opts: ["charge", "control", "command", "authority"], c: 0 },
+                { q: "I’m tired. Let’s stop to have a rest. Let’s take a ______.", opts: ["break", "nap", "pause", "rest"], c: 3 },
+                { q: "He tried to open the window but couldn’t. He made an ______.", opts: ["attempt", "effort", "try", "all are similar"], c: 3 },
+                { q: "I remember locking the door. I didn’t ______.", opts: ["forget", "recall", "remind", "think"], c: 0 },
+                { q: "She forgot to send the email. She didn’t ______.", opts: ["remember", "forget", "recall", "think"], c: 0 },
+                { q: "We stopped to have a coffee. We paused ______ a drink.", opts: ["for", "to", "on", "from"], c: 0 },
+                { q: "He enjoys exploring new places. He likes ______.", opts: ["adventures", "routine", "sameness", "boredom"], c: 0 },
+                { q: "I can’t imagine living without my phone. It’s ______ to me.", opts: ["essential", "useless", "harmful", "unimportant"], c: 0 }
+            ]
+        },
+        "Unit 5": {
+            title: "Transport & Travelling – Synonyms & Paraphrase",
+            questions: [
+                { q: "I go to work by car. I ______.", opts: ["drive", "ride", "fly", "walk"], c: 0 },
+                { q: "You cannot drive without a licence. You ______.", opts: ["are not allowed", "can", "must", "should"], c: 0 },
+                { q: "A ferry travels on water. It is a ______.", opts: ["boat", "bus", "train", "plane"], c: 0 },
+                { q: "In most airports, smoking inside is prohibited. You ______.", opts: ["can't", "can", "must", "should"], c: 0 },
+                { q: "I ride a bicycle to work. I use a ______.", opts: ["bike", "car", "bus", "scooter"], c: 0 },
+                { q: "You go to the check-in desk with your luggage. You ______.", opts: ["register", "depart", "arrive", "board"], c: 0 },
+                { q: "The plane will take off at 3 p.m. It will ______.", opts: ["depart", "arrive", "land", "start"], c: 0 },
+                { q: "I need a passport to travel abroad. It’s a ______ document.", opts: ["travel", "identity", "work", "school"], c: 0 },
+                { q: "The bus stop was very crowded. Many people were ______.", opts: ["waiting", "eating", "sleeping", "playing"], c: 0 },
+                { q: "A passenger travels on a bus. They are a ______.", opts: ["traveller", "driver", "pilot", "rider"], c: 0 },
+                { q: "I bought a one-way ticket to Jeddah. I won’t ______.", opts: ["return", "go", "stay", "leave"], c: 0 },
+                { q: "The train arrived at platform 2. Platform is where you ______ the train.", opts: ["board", "get off", "see", "leave"], c: 0 },
+                { q: "Fasten your seatbelt during take-off. Take-off is when the plane ______.", opts: ["leaves the ground", "lands", "taxis", "stops"], c: 0 },
+                { q: "I prefer the window seat on a plane. I like to look ______.", opts: ["outside", "inside", "around", "forward"], c: 0 },
+                { q: "The flight was delayed by two hours. It was ______.", opts: ["late", "early", "on time", "cancelled"], c: 0 },
+                { q: "We went through passport control at the airport. They checked our ______.", opts: ["documents", "luggage", "tickets", "seats"], c: 0 },
+                { q: "I always travel with hand baggage only. I don’t check in ______.", opts: ["hold luggage", "suitcase", "backpack", "bag"], c: 0 },
+                { q: "The taxi fare was very high. The ______ was expensive.", opts: ["price", "cost", "fee", "all are similar"], c: 3 },
+                { q: "I went to the station to catch a train. I wanted to ______ it.", opts: ["take", "miss", "see", "watch"], c: 0 },
+                { q: "The speed limit on this road is 120 km/h. You can’t go ______.", opts: ["faster", "slower", "higher", "lower"], c: 0 },
+                { q: "I usually travel by plane because it’s faster. I prefer ______.", opts: ["flying", "driving", "riding", "walking"], c: 0 },
+                { q: "You should buy a return ticket. A return ticket lets you ______.", opts: ["go and come back", "go only", "stay", "change"], c: 0 },
+                { q: "The ship will dock at the port tomorrow. It will ______.", opts: ["arrive", "depart", "sail", "stop"], c: 0 },
+                { q: "I’m afraid of flying. I have a ______ of planes.", opts: ["fear", "love", "hate", "like"], c: 0 },
+                { q: "A bicycle has two wheels. A wheel is a ______ circle.", opts: ["round", "square", "flat", "thin"], c: 0 },
+                { q: "A motorbike is a vehicle with two wheels and an engine. It’s a ______.", opts: ["motorcycle", "bicycle", "scooter", "car"], c: 0 },
+                { q: "The opposite of departure is arrival. Departure is when you ______.", opts: ["leave", "come", "enter", "exit"], c: 0 },
+                { q: "The train left the station at 5 p.m. It ______.", opts: ["departed", "arrived", "stopped", "waited"], c: 0 },
+                { q: "I catch the bus every morning. I ______ it.", opts: ["get on", "drive", "ride", "miss"], c: 0 },
+                { q: "A journey by ship is called a voyage. It’s a long ______.", opts: ["sea trip", "flight", "drive", "ride"], c: 0 },
+                { q: "I missed the bus, so I had to take a taxi. I ______ the bus.", opts: ["failed to catch", "caught", "drove", "rode"], c: 0 },
+                { q: "The traffic is heavy during rush hour. There are many ______.", opts: ["cars", "people", "buses", "all are correct"], c: 3 },
+                { q: "I always wear a helmet when cycling. It protects my ______.", opts: ["head", "hands", "feet", "eyes"], c: 0 },
+                { q: "The driver of the bus is very friendly. He is the ______.", opts: ["operator", "pilot", "captain", "rider"], c: 0 },
+                { q: "A metro is an underground train system. It’s a ______.", opts: ["subway", "tram", "ferry", "bus"], c: 0 },
+                { q: "I need to fill the car with petrol. Petrol is a ______.", opts: ["fuel", "oil", "liquid", "water"], c: 0 },
+                { q: "A pedestrian walks. They are a person on ______.", opts: ["foot", "bike", "car", "bus"], c: 0 },
+                { q: "The train seat is very comfortable. You can sit ______.", opts: ["comfortably", "hardly", "roughly", "softly"], c: 0 },
+                { q: "I booked my ticket online. I made a ______.", opts: ["reservation", "payment", "call", "visit"], c: 0 },
+                { q: "The bus stop is just around the corner. It’s very ______.", opts: ["near", "far", "big", "small"], c: 0 },
+                { q: "A cruise is a long journey by ship. It’s a ______.", opts: ["voyage", "flight", "drive", "ride"], c: 0 },
+                { q: "I always travel with a hand bag. It’s my ______ luggage.", opts: ["carry-on", "checked", "heavy", "big"], c: 0 },
+                { q: "The plane landing was bumpy. The touchdown was ______.", opts: ["rough", "smooth", "fast", "slow"], c: 0 },
+                { q: "The drive to the airport took an hour. The journey ______ 60 minutes.", opts: ["lasted", "went", "travelled", "passed"], c: 0 },
+                { q: "I have a connecting flight in Dubai. I have to ______ planes.", opts: ["change", "board", "leave", "miss"], c: 0 },
+                { q: "The flight from London to Paris is only 2 hours. The ______ is short.", opts: ["journey", "distance", "time", "all are similar"], c: 3 },
+                { q: "I need to check in for my flight online. I must ______.", opts: ["register", "pay", "call", "ask"], c: 0 },
+                { q: "The express train is faster. It makes fewer ______.", opts: ["stops", "passengers", "tickets", "delays"], c: 0 },
+                { q: "I always keep my hand luggage in the overhead locker. It’s in the ______ compartment.", opts: ["above", "below", "beside", "behind"], c: 0 },
+                { q: "The master of the ship is the captain. Master means the person in ______.", opts: ["command", "service", "training", "the kitchen"], c: 0 }
+            ]
+        },
+        "Unit 6": {
+            title: "Food & Drink – Synonyms & Paraphrase",
+            questions: [
+                { q: "Bread, rice and pasta are types of carbohydrates. They provide ______.", opts: ["energy", "protein", "fat", "vitamins"], c: 0 },
+                { q: "Chicken and beef are types of meat. They are ______ products.", opts: ["animal", "plant", "dairy", "grain"], c: 0 },
+                { q: "I’m thirsty. I want a drink. Thirst means you need ______.", opts: ["liquid", "solid", "food", "rest"], c: 0 },
+                { q: "Kabsa is a popular Saudi dish. It is a ______ meal.", opts: ["traditional", "foreign", "fast", "snack"], c: 0 },
+                { q: "Pepper is often paired with salt. They are ______.", opts: ["spices", "herbs", "sauces", "oils"], c: 0 },
+                { q: "Milk is a common breakfast drink. It’s a ______ product.", opts: ["dairy", "grain", "fruit", "vegetable"], c: 0 },
+                { q: "An apple is a type of fruit. It grows on ______.", opts: ["trees", "bushes", "vines", "ground"], c: 0 },
+                { q: "A carrot is a vegetable. It is a root ______.", opts: ["vegetable", "fruit", "protein", "carb"], c: 0 },
+                { q: "Cheese is made from milk. It’s a ______ product.", opts: ["dairy", "meat", "grain", "fruit"], c: 0 },
+                { q: "I usually have a sandwich for lunch. A sandwich is ______.", opts: ["bread with filling", "rice", "pasta", "soup"], c: 0 },
+                { q: "Olive oil is used in cooking. It’s a type of ______.", opts: ["fat", "water", "juice", "sauce"], c: 0 },
+                { q: "Coffee is a popular drink in Saudi Arabia. It’s often served with ______.", opts: ["dates", "bread", "rice", "meat"], c: 0 },
+                { q: "Dates are a type of fruit. They are very ______.", opts: ["sweet", "salty", "sour", "bitter"], c: 0 },
+                { q: "Yoghurt is a dairy product. It’s made from ______.", opts: ["milk", "water", "flour", "sugar"], c: 0 },
+                { q: "I like my coffee with sugar. Sugar makes it ______.", opts: ["sweet", "salty", "sour", "bitter"], c: 0 },
+                { q: "Mandi is a traditional Arab dish with meat and rice. It’s similar to ______.", opts: ["kabsa", "pizza", "burger", "pasta"], c: 0 },
+                { q: "Food that tastes good is delicious. It is ______.", opts: ["tasty", "awful", "bland", "boring"], c: 0 },
+                { q: "If food has no taste, it is bland. It lacks ______.", opts: ["flavour", "colour", "texture", "smell"], c: 0 },
+                { q: "Chilli makes food taste hot. It adds ______.", opts: ["heat", "sweetness", "sourness", "saltiness"], c: 0 },
+                { q: "A spoonful of sugar cures hiccups. It’s a common ______.", opts: ["remedy", "cause", "symptom", "illness"], c: 0 },
+                { q: "I prefer white bread for sandwiches. White bread is made from ______ flour.", opts: ["refined", "wholemeal", "brown", "rye"], c: 0 },
+                { q: "A snack is a small meal between main meals. It’s something ______.", opts: ["light", "heavy", "big", "full"], c: 0 },
+                { q: "We need to buy some lettuce for the salad. Lettuce is a ______ vegetable.", opts: ["leafy", "root", "pod", "tuber"], c: 0 },
+                { q: "I’m on a diet, so I avoid fatty foods. Fatty foods contain a lot of ______.", opts: ["oil", "water", "fibre", "protein"], c: 0 },
+                { q: "Honey is sweet. It is produced by ______.", opts: ["bees", "cows", "trees", "flowers"], c: 0 },
+                { q: "Lemon is sour. It contains ______ acid.", opts: ["citric", "lactic", "malic", "tartaric"], c: 0 },
+                { q: "Dark chocolate can be bitter. Bitterness is the opposite of ______.", opts: ["sweetness", "saltiness", "sourness", "spiciness"], c: 0 },
+                { q: "Fries are usually salty. They are cooked in ______.", opts: ["oil", "water", "butter", "milk"], c: 0 },
+                { q: "A vegetarian does not eat meat. They avoid ______ products.", opts: ["animal", "plant", "dairy", "grain"], c: 0 },
+                { q: "I usually have cereal for breakfast. Cereal is often made from ______.", opts: ["wheat", "rice", "corn", "all are correct"], c: 3 },
+                { q: "The main meal of the day is often dinner. It’s the ______ meal.", opts: ["largest", "smallest", "quickest", "lightest"], c: 0 },
+                { q: "I’m hungry. I need something to eat. Hunger is the desire for ______.", opts: ["food", "drink", "rest", "water"], c: 0 },
+                { q: "I’ll have a glass of orange juice. Juice is pressed from ______.", opts: ["fruit", "vegetables", "grain", "meat"], c: 0 },
+                { q: "Pizza is a round, flat food made from dough. Its base is ______.", opts: ["bread", "rice", "potato", "pasta"], c: 0 },
+                { q: "Tea, juice and milk are all common ______.", opts: ["beverages", "foods", "snacks", "meals"], c: 0 },
+                { q: "I need to buy a carton of eggs. A carton is a ______ container.", opts: ["cardboard", "plastic", "metal", "glass"], c: 0 },
+                { q: "A jar of jam is almost empty. A jar is made of ______.", opts: ["glass", "plastic", "metal", "wood"], c: 0 },
+                { q: "A bottle of water is on the table. A bottle is a ______ container.", opts: ["plastic or glass", "metal", "cardboard", "wooden"], c: 0 },
+                { q: "A can of tuna is in the cupboard. A can is made of ______.", opts: ["tin", "glass", "plastic", "cardboard"], c: 0 },
+                { q: "A bag of rice is heavy. A bag is made of ______.", opts: ["plastic or cloth", "glass", "metal", "wood"], c: 0 },
+                { q: "We need a loaf of bread. A loaf is a ______ shape.", opts: ["block", "round", "flat", "long"], c: 0 },
+                { q: "Please buy a carton of milk. Carton is similar to ______.", opts: ["box", "bottle", "jar", "can"], c: 0 },
+                { q: "A box of chocolates is a nice gift. A box is a ______ container.", opts: ["cardboard", "glass", "plastic", "metal"], c: 0 },
+                { q: "I’d like a slice of cake. A slice is a ______ piece.", opts: ["thin", "thick", "big", "small"], c: 0 },
+                { q: "A packet of crisps is unhealthy. Packet means a small ______.", opts: ["bag", "box", "jar", "can"], c: 0 },
+                { q: "A tube of toothpaste is almost finished. Tube is a ______ container.", opts: ["squeezable", "rigid", "hard", "breakable"], c: 0 },
+                { q: "I need a bar of soap. A bar is a ______ piece.", opts: ["solid", "liquid", "powder", "soft"], c: 0 },
+                { q: "We bought a bunch of grapes. A bunch is a ______.", opts: ["cluster", "single", "pair", "few"], c: 0 },
+                { q: "A bouquet of flowers for you. Bouquet is a ______ arrangement.", opts: ["bunch", "single", "pair", "box"], c: 0 },
+                { q: "A sheet of paper is on the desk. A sheet is a ______ piece.", opts: ["flat", "round", "thick", "folded"], c: 0 }
+            ]
+        },
+        "Unit 7": {
+            title: "Past Time Phrases & Life Events – Synonyms & Paraphrase",
+            questions: [
+                { q: "“Yesterday” refers to the day before today. It’s the ______ day.", opts: ["previous", "next", "current", "future"], c: 0 },
+                { q: "He was born in 1995. That means his birth ______ was 1995.", opts: ["year", "date", "place", "time"], c: 0 },
+                { q: "“Last week” means the week before now. We use it for the ______ past.", opts: ["recent", "distant", "future", "coming"], c: 0 },
+                { q: "She got married in 2010. Her ______ was in 2010.", opts: ["wedding", "birth", "death", "graduation"], c: 0 },
+                { q: "I went to Jeddah two weeks ago. I travelled there 14 ______ back.", opts: ["days", "months", "years", "hours"], c: 0 },
+                { q: "Mandela was born in 1918. He came into the ______ that year.", opts: ["world", "country", "city", "family"], c: 0 },
+                { q: "We met on Monday. That was the ______ day of the week.", opts: ["specific", "next", "previous", "first"], c: 0 },
+                { q: "He started his new job in May. May is a ______.", opts: ["month", "week", "day", "year"], c: 0 },
+                { q: "The party was at the weekend. Saturday and Sunday are the ______.", opts: ["weekend", "weekdays", "holidays", "workdays"], c: 0 },
+                { q: "She passed her driving test on Tuesday. She got her ______.", opts: ["licence", "car", "passport", "ID"], c: 0 },
+                { q: "I saw him in the morning. Morning is the first part of the ______.", opts: ["day", "night", "afternoon", "evening"], c: 0 },
+                { q: "The meeting is at 3 o’clock. It is ______ three.", opts: ["exactly", "about", "around", "nearly"], c: 0 },
+                { q: "He retired at the age of 60. He stopped ______.", opts: ["working", "living", "eating", "sleeping"], c: 0 },
+                { q: "My grandfather passed away last year. He ______.", opts: ["died", "left", "went", "travelled"], c: 0 },
+                { q: "They moved to Riyadh in 2018. They changed their ______.", opts: ["residence", "job", "car", "school"], c: 0 },
+                { q: "She had a baby in June. She gave ______.", opts: ["birth", "life", "present", "party"], c: 0 },
+                { q: "We went on holiday in the summer. Summer is the ______ season.", opts: ["hottest", "coldest", "wettest", "driest"], c: 0 },
+                { q: "He graduated from university last year. He completed his ______.", opts: ["studies", "work", "lunch", "breakfast"], c: 0 },
+                { q: "I studied English at school. I learned it in a ______ environment.", opts: ["classroom", "office", "home", "park"], c: 0 },
+                { q: "She learned to drive at seventeen. She got her licence at that ______.", opts: ["age", "year", "time", "date"], c: 0 },
+                { q: "We celebrated Eid on Wednesday. Eid is a religious ______.", opts: ["festival", "day", "month", "season"], c: 0 },
+                { q: "The film started at 8 p.m. It began at ______.", opts: ["eight", "eight o'clock", "8:00", "all are okay"], c: 3 },
+                { q: "He bought a new car in March. March is the third ______.", opts: ["month", "week", "day", "year"], c: 0 },
+                { q: "I first met her in 2015. That was the year of our first ______.", opts: ["meeting", "talk", "call", "chat"], c: 0 },
+                { q: "She fell asleep during the lesson. She slept while the teacher was ______.", opts: ["teaching", "eating", "playing", "singing"], c: 0 },
+                { q: "I waited for two hours before the bus came. Before means ______ that time.", opts: ["earlier", "later", "after", "during"], c: 0 },
+                { q: "He has lived here for five years. He moved here five years ______.", opts: ["ago", "since", "during", "while"], c: 0 },
+                { q: "They have been married since 2010. Their marriage started ______ that year.", opts: ["in", "on", "at", "from"], c: 0 },
+                { q: "I’ll call you when I arrive. When means at the ______ I get there.", opts: ["moment", "place", "reason", "way"], c: 0 },
+                { q: "While he was cooking, the phone rang. The two actions happened at the ______ time.", opts: ["same", "different", "later", "earlier"], c: 0 },
+                { q: "She has worked here since last summer. Since indicates a ______ point.", opts: ["starting", "ending", "middle", "future"], c: 0 },
+                { q: "I haven’t eaten anything since breakfast. I’m ______ now.", opts: ["hungry", "thirsty", "tired", "bored"], c: 0 },
+                { q: "They stayed in a hotel during their holiday. The hotel was their ______.", opts: ["accommodation", "home", "house", "flat"], c: 0 },
+                { q: "I’ll finish the report by Friday. By means not ______ than Friday.", opts: ["later", "earlier", "sooner", "faster"], c: 0 },
+                { q: "You must submit the form by 5 p.m. The latest you can submit is ______ 5.", opts: ["at", "before", "after", "by"], c: 0 },
+                { q: "The shop is open from 9 a.m. to 10 p.m. It operates ______ those hours.", opts: ["between", "outside", "after", "before"], c: 0 },
+                { q: "He worked throughout the night. He worked all ______.", opts: ["night long", "day", "week", "month"], c: 0 },
+                { q: "I read a book while waiting. I read ______ the wait.", opts: ["during", "before", "after", "until"], c: 0 },
+                { q: "She left the company after ten years of service. She had ______ for ten years.", opts: ["worked", "waited", "studied", "travelled"], c: 0 },
+                { q: "I haven’t seen her for a long time. It has been a long ______.", opts: ["period", "moment", "second", "minute"], c: 0 },
+                { q: "He has been busy since Monday. He started being busy ______ Monday.", opts: ["on", "in", "at", "from"], c: 0 },
+                { q: "She got married when she was 25. Her marriage happened at that ______.", opts: ["age", "year", "time", "date"], c: 0 },
+                { q: "We always go out on Friday evening. It’s our weekly ______.", opts: ["routine", "holiday", "work", "study"], c: 0 },
+                { q: "He was born on the 4th of July. That’s the ______ of the month.", opts: ["date", "day", "week", "year"], c: 0 },
+                { q: "I’ll be back in ten minutes. In means after the ______ of ten minutes.", opts: ["passage", "arrival", "start", "end"], c: 0 },
+                { q: "She finished the exam before the time was up. She had time to ______.", opts: ["spare", "rushed", "hurried", "panicked"], c: 0 },
+                { q: "The train arrived on time. It was not ______.", opts: ["late", "early", "fast", "slow"], c: 0 },
+                { q: "I have known him since childhood. Our friendship started when we were ______.", opts: ["kids", "adults", "teenagers", "babies"], c: 0 },
+                { q: "He lived in Jeddah until 2005. Then he moved ______.", opts: ["away", "there", "back", "in"], c: 0 },
+                { q: "We played football for an hour. The duration was ______ minutes.", opts: ["sixty", "thirty", "ninety", "fifteen"], c: 0 }
+            ]
+        },
+        "Unit 8": {
+            title: "Adjectives & Entertainment – Synonyms & Paraphrase",
+            questions: [
+                { q: "The film was fantastic. I loved it. It was ______.", opts: ["excellent", "boring", "awful", "sad"], c: 0 },
+                { q: "A film that makes you laugh is funny. It’s a ______.", opts: ["comedy", "horror", "tragedy", "drama"], c: 0 },
+                { q: "The book was boring. I fell asleep. It was ______.", opts: ["dull", "exciting", "interesting", "fantastic"], c: 0 },
+                { q: "A film director makes films. He is the person who ______ the film.", opts: ["directs", "acts", "writes", "produces"], c: 0 },
+                { q: "An artist paints pictures. They create ______.", opts: ["art", "music", "literature", "film"], c: 0 },
+                { q: "This story is very interesting. I want to know what happens. It’s ______.", opts: ["engaging", "boring", "awful", "cheap"], c: 0 },
+                { q: "An action film is often exciting. It has a lot of ______.", opts: ["thrills", "sadness", "boredom", "silence"], c: 0 },
+                { q: "The music was too loud. I couldn’t sleep. It was very ______.", opts: ["noisy", "quiet", "soft", "gentle"], c: 0 },
+                { q: "She has a beautiful voice. It sounds very ______.", opts: ["pleasant", "ugly", "loud", "noisy"], c: 0 },
+                { q: "The opposite of old is young. Young means ______.", opts: ["not old", "new", "modern", "fresh"], c: 0 },
+                { q: "The opposite of expensive is cheap. Cheap means low in ______.", opts: ["price", "quality", "size", "weight"], c: 0 },
+                { q: "The opposite of easy is difficult. Difficult means ______.", opts: ["hard", "simple", "light", "soft"], c: 0 },
+                { q: "The opposite of fast is slow. Slow means not ______.", opts: ["quick", "rapid", "swift", "speedy"], c: 0 },
+                { q: "The opposite of big is small. Small means of little ______.", opts: ["size", "value", "importance", "height"], c: 0 },
+                { q: "The opposite of hot is cold. Cold means low in ______.", opts: ["temperature", "heat", "pressure", "energy"], c: 0 },
+                { q: "A documentary is a film about real events. It is based on ______.", opts: ["facts", "fiction", "fantasy", "imagination"], c: 0 },
+                { q: "A horror film makes you scream. It is meant to be ______.", opts: ["frightening", "funny", "romantic", "exciting"], c: 0 },
+                { q: "A romance is about love. The story revolves around ______.", opts: ["relationships", "adventure", "mystery", "crime"], c: 0 },
+                { q: "A musical often has singing and dancing. It includes many ______.", opts: ["songs", "fights", "chases", "explosions"], c: 0 },
+                { q: "An author writes books. They are a ______.", opts: ["writer", "reader", "editor", "publisher"], c: 0 },
+                { q: "I like watching sports matches on TV. I enjoy the ______.", opts: ["competition", "music", "news", "adverts"], c: 0 },
+                { q: "He plays the guitar very well. He is a skilled ______.", opts: ["guitarist", "musician", "singer", "drummer"], c: 0 },
+                { q: "A concert is a live music performance. You see musicians ______.", opts: ["on stage", "on screen", "in a book", "in a gallery"], c: 0 },
+                { q: "I enjoy going to the theatre to watch plays. I like live ______.", opts: ["drama", "cinema", "sport", "music"], c: 0 },
+                { q: "A painting is a piece of art. It’s created with ______.", opts: ["paint", "words", "notes", "movements"], c: 0 },
+                { q: "The news is a factual programme. It tells you what ______.", opts: ["is happening", "happened long ago", "will happen", "might happen"], c: 0 },
+                { q: "An actor performs in a play or film. They portray a ______.", opts: ["character", "person", "animal", "object"], c: 0 },
+                { q: "The film had a good plot. The story was ______.", opts: ["interesting", "boring", "weak", "simple"], c: 0 },
+                { q: "The special effects were amazing. They looked very ______.", opts: ["realistic", "fake", "cheap", "poor"], c: 0 },
+                { q: "I’m not a big fan of sci-fi films. I don’t really ______ them.", opts: ["like", "understand", "watch", "hate"], c: 0 },
+                { q: "A scene is a part of a film. It’s like a ______ in a book.", opts: ["chapter", "paragraph", "sentence", "word"], c: 0 },
+                { q: "The film is based on a true story. It’s not completely ______.", opts: ["fictional", "real", "historical", "documented"], c: 0 },
+                { q: "The movie was a box office hit. It made a lot of ______.", opts: ["money", "noise", "friends", "enemies"], c: 0 },
+                { q: "I prefer subtitled films to dubbed versions. I like to hear the original ______.", opts: ["language", "sound", "music", "voice"], c: 0 },
+                { q: "The audience gave a standing ovation. They were very ______.", opts: ["impressed", "bored", "angry", "disappointed"], c: 0 },
+                { q: "A critique is a review of a film. It’s an ______ of the work.", opts: ["evaluation", "summary", "story", "plot"], c: 0 },
+                { q: "The book was turned into a film. It was ______.", opts: ["adapted", "copied", "moved", "changed"], c: 0 },
+                { q: "He is a famous film director. He has directed many ______.", opts: ["movies", "plays", "songs", "paintings"], c: 0 },
+                { q: "I like listening to classical music. It’s music from the ______.", opts: ["past", "present", "future", "new"], c: 0 },
+                { q: "The painting is a masterpiece of modern art. It’s considered a very important ______.", opts: ["work", "drawing", "sketch", "painting"], c: 0 },
+                { q: "A sculptor works with stone or wood. They create ______.", opts: ["statues", "paintings", "music", "books"], c: 0 },
+                { q: "A dancer performs dance. They move to ______.", opts: ["music", "words", "silence", "lights"], c: 0 },
+                { q: "The plot of the book is very gripping. It holds your ______.", opts: ["attention", "money", "hand", "book"], c: 0 },
+                { q: "I go to the cinema once a week. Once means ______ time.", opts: ["one", "two", "three", "four"], c: 0 },
+                { q: "The film is set in ancient Egypt. The story takes ______ there.", opts: ["place", "time", "part", "over"], c: 0 },
+                { q: "A series is a TV drama in parts. Each part is an ______.", opts: ["episode", "act", "scene", "chapter"], c: 0 },
+                { q: "I usually stream films on Netflix. I watch them ______.", opts: ["online", "offline", "live", "on TV"], c: 0 },
+                { q: "A poet writes poems. Poetry is a form of ______.", opts: ["literature", "art", "music", "dance"], c: 0 },
+                { q: "Admission to the museum is free. You don’t have to ______.", opts: ["pay", "enter", "visit", "see"], c: 0 },
+                { q: "The film received mixed reviews from critics. Some liked it, some ______.", opts: ["didn't", "did", "hated", "loved"], c: 0 }
+            ]
+        },
+        "Unit 9": {
+            title: "Shops, Services & Describing Objects – Synonyms & Paraphrase",
+            questions: [
+                { q: "A supermarket sells food and everyday items. It’s a large ______ shop.", opts: ["self-service", "small", "specialist", "department"], c: 0 },
+                { q: "The shop is not expensive. It is ______.", opts: ["cheap", "awful", "unfriendly", "tired"], c: 0 },
+                { q: "A mosque is a place where people pray. It’s a ______ building.", opts: ["religious", "commercial", "residential", "industrial"], c: 0 },
+                { q: "A bedroom is where you sleep. It’s your ______ room.", opts: ["private", "public", "living", "dining"], c: 0 },
+                { q: "A kitchen is where you cook food. It has a ______ and oven.", opts: ["stove", "bed", "sofa", "desk"], c: 0 },
+                { q: "Rent is money you pay for a home. You pay it to the ______.", opts: ["landlord", "bank", "government", "friend"], c: 0 },
+                { q: "A pharmacy sells medicine. It’s also called a ______.", opts: ["drugstore", "supermarket", "bakery", "bookshop"], c: 0 },
+                { q: "A barber cuts hair. He works in a barber’s ______.", opts: ["shop", "hospital", "office", "kitchen"], c: 0 },
+                { q: "A car park is where you leave your car. It’s a parking ______.", opts: ["lot", "garage", "space", "area"], c: 0 },
+                { q: "You can get cash from an ATM or a bank. ATM stands for ______ Teller Machine.", opts: ["Automated", "Automatic", "Auto", "Bank"], c: 1 },
+                { q: "A plumber repairs pipes and water systems. He fixes ______.", opts: ["leaks", "wires", "furniture", "cars"], c: 0 },
+                { q: "A mechanic repairs cars. He works in a ______.", opts: ["garage", "hospital", "office", "shop"], c: 0 },
+                { q: "A carpenter makes wooden furniture. He works with ______.", opts: ["wood", "metal", "glass", "plastic"], c: 0 },
+                { q: "A post office handles letters and parcels. You can ______ a letter there.", opts: ["mail", "buy", "sell", "eat"], c: 0 },
+                { q: "A library lends books. You can ______ books there.", opts: ["borrow", "buy", "sell", "read"], c: 0 },
+                { q: "A florist sells flowers. You can buy a ______ there.", opts: ["bouquet", "cake", "book", "drink"], c: 0 },
+                { q: "A butcher sells meat. You can buy ______ there.", opts: ["beef", "bread", "flowers", "medicine"], c: 0 },
+                { q: "A bakery sells bread and cakes. It’s a ______.", opts: ["baker's", "butcher's", "pharmacy", "florist's"], c: 0 },
+                { q: "This bag is made of leather. Leather comes from ______.", opts: ["animals", "trees", "plants", "oil"], c: 0 },
+                { q: "The window is made of glass. Glass is ______.", opts: ["transparent", "opaque", "wooden", "metal"], c: 0 },
+                { q: "The table is made of wood. Wood comes from ______.", opts: ["trees", "metal", "glass", "plastic"], c: 0 },
+                { q: "The toy is made of plastic. Plastic is a man-made ______.", opts: ["material", "substance", "element", "compound"], c: 0 },
+                { q: "The roof is made of metal. Metal is strong and ______.", opts: ["durable", "soft", "flexible", "light"], c: 0 },
+                { q: "The ring can be made of gold, silver, or diamond. These are ______ metals or gemstones.", opts: ["precious", "cheap", "common", "fake"], c: 0 },
+                { q: "The sweater is made of wool. Wool comes from ______.", opts: ["sheep", "cotton plants", "silkworms", "trees"], c: 0 },
+                { q: "The vase is round. Round means it has no ______.", opts: ["corners", "colour", "shape", "weight"], c: 0 },
+                { q: "The box is square. It has four equal ______.", opts: ["sides", "angles", "edges", "all are correct"], c: 3 },
+                { q: "The ruler is flat. It is not ______.", opts: ["curved", "straight", "long", "short"], c: 0 },
+                { q: "The cushion is very soft. Soft means it is ______.", opts: ["not hard", "rough", "heavy", "sharp"], c: 0 },
+                { q: "The mirror has a smooth surface. Smooth means not ______.", opts: ["rough", "flat", "shiny", "clean"], c: 0 },
+                { q: "The stone feels hard. Hard means it is ______.", opts: ["solid", "soft", "liquid", "gaseous"], c: 0 },
+                { q: "The sandpaper is rough. Rough means it has a ______ surface.", opts: ["bumpy", "smooth", "flat", "shiny"], c: 0 },
+                { q: "This curry is very spicy. Spicy means it contains hot ______.", opts: ["peppers", "sugar", "salt", "vinegar"], c: 0 },
+                { q: "The cake tastes sweet. Sweet is the opposite of ______.", opts: ["bitter", "salty", "sour", "all are opposite in taste"], c: 3 },
+                { q: "Lemon is sour. Sour means it has an ______ taste like vinegar.", opts: ["acidic", "alkaline", "sweet", "salty"], c: 0 },
+                { q: "The coffee is too bitter. Bitterness can be reduced with ______.", opts: ["sugar", "salt", "lemon", "water"], c: 0 },
+                { q: "The soup needs more salt. It is bland. Bland means lacking ______.", opts: ["flavour", "colour", "heat", "texture"], c: 0 },
+                { q: "The meeting was very boring. I was ______.", opts: ["uninterested", "excited", "happy", "angry"], c: 0 },
+                { q: "The film was moving. I almost cried. It was very ______.", opts: ["emotional", "boring", "funny", "scary"], c: 0 },
+                { q: "The joke was hilarious. Everyone laughed. It was extremely ______.", opts: ["funny", "sad", "serious", "tiring"], c: 0 },
+                { q: "The exam was difficult. I found it very hard. It was ______.", opts: ["challenging", "easy", "simple", "boring"], c: 0 },
+                { q: "The instructions were confusing. I couldn’t understand them. They were ______.", opts: ["unclear", "clear", "obvious", "simple"], c: 0 },
+                { q: "The lecture was informative. I learned a lot. It was very ______.", opts: ["educational", "boring", "confusing", "short"], c: 0 },
+                { q: "The weather is lovely today. Let’s go out. It is very ______.", opts: ["pleasant", "terrible", "stormy", "awful"], c: 0 },
+                { q: "The room was dark. I couldn’t see anything. There was no ______.", opts: ["light", "sound", "air", "water"], c: 0 },
+                { q: "The bag is too heavy. I can’t carry it. It weighs a ______.", opts: ["lot", "little", "bit", "few"], c: 0 },
+                { q: "The scarf is very soft. It feels nice against the ______.", opts: ["skin", "eyes", "ears", "hands"], c: 0 },
+                { q: "My phone is dead. I need to charge it. It has no ______.", opts: ["battery", "screen", "signal", "memory"], c: 0 },
+                { q: "The car is second-hand, so it’s not new. It’s ______.", opts: ["used", "fresh", "modern", "old"], c: 0 },
+                { q: "This diamond is precious. It is very ______.", opts: ["valuable", "cheap", "worthless", "common"], c: 0 }
+            ]
+        },
+        "Unit 10": {
+            title: "Clothes & Personality – Synonyms & Paraphrase",
+            questions: [
+                { q: "A tie is worn around the neck by men. It’s part of ______ wear.", opts: ["formal", "casual", "sports", "night"], c: 0 },
+                { q: "A cheerful person is always happy. They have a positive ______.", opts: ["attitude", "job", "car", "house"], c: 0 },
+                { q: "For a formal event, a woman often wears a dress. A dress is a one-piece ______.", opts: ["garment", "shoe", "jewellery", "bag"], c: 0 },
+                { q: "A polite person says “please” and “thank you”. They are ______.", opts: ["respectful", "rude", "lazy", "miserable"], c: 0 },
+                { q: "In cold weather, you wear a coat. A coat is a warm outer ______.", opts: ["garment", "shoe", "hat", "glove"], c: 0 },
+                { q: "A hard-working person puts in a lot of ______.", opts: ["effort", "sleep", "food", "rest"], c: 0 },
+                { q: "Jeans are trousers made of denim. Denim is a thick ______.", opts: ["cotton fabric", "wool", "silk", "leather"], c: 0 },
+                { q: "A lazy person doesn’t like to work. They avoid ______.", opts: ["activity", "sleep", "food", "rest"], c: 0 },
+                { q: "A talkative person talks a lot. They are very ______.", opts: ["chatty", "quiet", "shy", "silent"], c: 0 },
+                { q: "Socks are worn on the feet inside shoes. They keep your feet ______.", opts: ["warm", "cool", "wet", "dirty"], c: 0 },
+                { q: "A ring is a piece of jewellery for the finger. It can be a ______ band.", opts: ["metal", "plastic", "wooden", "glass"], c: 0 },
+                { q: "A patient person is not easily upset. They can wait without ______.", opts: ["complaint", "happiness", "sadness", "anger"], c: 0 },
+                { q: "A friendly person makes friends easily. They are ______.", opts: ["sociable", "shy", "quiet", "unfriendly"], c: 0 },
+                { q: "Gloves are worn on hands when it's cold. They protect your ______.", opts: ["fingers", "ears", "head", "feet"], c: 0 },
+                { q: "A raincoat is a coat worn when it rains. It’s made of ______ material.", opts: ["waterproof", "woollen", "cotton", "leather"], c: 0 },
+                { q: "A miserable person is always unhappy. They are ______.", opts: ["joyless", "cheerful", "friendly", "polite"], c: 0 },
+                { q: "A scarf is worn around the neck for warmth. It’s often made of ______.", opts: ["wool", "metal", "plastic", "paper"], c: 0 },
+                { q: "A cowardly person is not brave. They lack ______.", opts: ["courage", "fear", "strength", "wisdom"], c: 0 },
+                { q: "A skirt is a garment for the lower body worn by women. It hangs from the ______.", opts: ["waist", "neck", "shoulders", "knees"], c: 0 },
+                { q: "An easy-going person is relaxed. They don’t get ______ easily.", opts: ["stressed", "happy", "sad", "angry"], c: 0 },
+                { q: "A t-shirt is a casual shirt with short sleeves. It’s usually made of ______.", opts: ["cotton", "silk", "leather", "wool"], c: 0 },
+                { q: "A thoughtful person thinks about others. They are ______.", opts: ["considerate", "selfish", "mean", "rude"], c: 0 },
+                { q: "Sandals are open shoes worn in summer. They keep your feet ______.", opts: ["cool", "warm", "wet", "dry"], c: 0 },
+                { q: "A mean person is not generous. They don’t like to ______.", opts: ["share", "talk", "eat", "sleep"], c: 0 },
+                { q: "A suit is a jacket and trousers of the same material. It’s worn for ______ occasions.", opts: ["formal", "casual", "sports", "sleep"], c: 0 },
+                { q: "A bossy person tells others what to do. They are very ______.", opts: ["domineering", "shy", "polite", "cheerful"], c: 0 },
+                { q: "Boots are strong shoes that cover the ankle and sometimes the ______.", opts: ["calf", "toe", "heel", "knee"], c: 0 },
+                { q: "A messy person is not tidy. Their things are ______.", opts: ["scattered", "neat", "clean", "organised"], c: 0 },
+                { q: "An earring is a piece of jewellery for the ear. It’s worn on the ______.", opts: ["lobe", "nose", "finger", "neck"], c: 0 },
+                { q: "An intelligent person is very smart. They learn ______.", opts: ["quickly", "slowly", "hardly", "badly"], c: 0 },
+                { q: "A belt is worn around the waist to hold trousers up. It’s usually made of ______.", opts: ["leather", "plastic", "glass", "paper"], c: 0 },
+                { q: "A shy person is not confident. They feel ______ in social situations.", opts: ["nervous", "bold", "brave", "strong"], c: 0 },
+                { q: "A sweater is a warm knitted garment for the upper body. It’s often made of ______.", opts: ["wool", "cotton", "silk", "leather"], c: 0 },
+                { q: "A stubborn person doesn’t listen to others. They are very ______.", opts: ["inflexible", "flexible", "easy-going", "patient"], c: 0 },
+                { q: "Sunglasses protect your eyes from the sun. They have ______ lenses.", opts: ["tinted", "clear", "broken", "bright"], c: 0 },
+                { q: "A neat person is very tidy. Everything is in its ______.", opts: ["place", "bag", "room", "box"], c: 0 },
+                { q: "Shorts are casual trousers that end at the knee. They are worn in ______.", opts: ["summer", "winter", "autumn", "spring"], c: 0 },
+                { q: "A punctual person is always on time. They are never ______.", opts: ["late", "early", "quick", "slow"], c: 0 },
+                { q: "A bandana is a piece of cloth worn around the head or neck. It’s a type of ______.", opts: ["scarf", "tie", "hat", "belt"], c: 0 },
+                { q: "A rude person is not polite. They lack ______.", opts: ["manners", "friends", "money", "time"], c: 0 },
+                { q: "Slippers are soft shoes worn at home. They are very ______.", opts: ["comfortable", "uncomfortable", "hard", "rough"], c: 0 },
+                { q: "An energetic person is full of energy. They are very ______.", opts: ["active", "lazy", "tired", "sleepy"], c: 0 },
+                { q: "A blouse is a formal shirt for women. It’s often made of ______ material.", opts: ["light", "heavy", "thick", "hard"], c: 0 },
+                { q: "A spendthrift spends money carelessly. They are not ______.", opts: ["thrifty", "generous", "mean", "wise"], c: 0 },
+                { q: "Trousers are a garment covering the legs separately. They are also called ______.", opts: ["pants", "shorts", "skirt", "dress"], c: 0 },
+                { q: "A meticulous person is very careful with details. They pay ______ to everything.", opts: ["close attention", "no attention", "little attention", "some attention"], c: 0 },
+                { q: "A hat is worn on the head for sun protection. It provides ______.", opts: ["shade", "heat", "cold", "rain"], c: 0 },
+                { q: "An emotional person is very sensitive. They feel things ______.", opts: ["deeply", "shallowly", "quickly", "slowly"], c: 0 },
+                { q: "Underwear is worn under other clothes. It’s also called ______.", opts: ["intimate apparel", "outerwear", "coat", "jacket"], c: 0 },
+                { q: "A grumpy person is always complaining. They are often in a bad ______.", opts: ["mood", "car", "house", "job"], c: 0 }
+            ]
+        },
+        "Unit 11": {
+            title: "Animals, Nature & Big Numbers – Synonyms & Paraphrase",
+            questions: [
+                { q: "A camel is a large desert animal. It’s known for its ability to store ______.", opts: ["water and fat", "food", "air", "speed"], c: 0 },
+                { q: "1,000,000 is one million. It’s 10^6 or a thousand ______.", opts: ["thousand", "hundred", "billion", "ten"], c: 0 },
+                { q: "A forest is a place with many trees. It’s a large ______ area.", opts: ["wooded", "sandy", "icy", "rocky"], c: 0 },
+                { q: "A beach is where sand and sea meet. You go there to ______.", opts: ["swim and sunbathe", "ski", "climb", "hike"], c: 0 },
+                { q: "2,500 is two thousand five hundred. It’s halfway to ______ thousand.", opts: ["three", "five", "ten", "one"], c: 0 },
+                { q: "A mountain is a very high point on Earth. The tallest is ______ Everest.", opts: ["Mount", "Hill", "Peak", "Summit"], c: 0 },
+                { q: "An elephant is the largest land animal. It has a long ______.", opts: ["trunk", "neck", "tail", "leg"], c: 0 },
+                { q: "10,000 is ten thousand. Ten thousand meters is ______ kilometers.", opts: ["ten", "one", "hundred", "thousand"], c: 0 },
+                { q: "A penguin is a bird that swims but can’t fly. It lives in cold ______.", opts: ["regions", "deserts", "forests", "jungles"], c: 0 },
+                { q: "The “ship of the desert” is the camel. It can carry heavy ______.", opts: ["loads", "water", "food", "people"], c: 0 },
+                { q: "500,000 is half a million. It’s five hundred ______.", opts: ["thousand", "hundred", "million", "billion"], c: 0 },
+                { q: "A lake is a body of water surrounded by land. It’s smaller than a ______.", opts: ["sea", "river", "stream", "pond"], c: 0 },
+                { q: "An omnivore eats both plants and meat. Humans are ______.", opts: ["omnivores", "carnivores", "herbivores", "scavengers"], c: 0 },
+                { q: "3,000,000 is three million. It’s three times a ______.", opts: ["million", "thousand", "hundred", "billion"], c: 0 },
+                { q: "A stream is a small river. It’s also called a ______.", opts: ["brook", "lake", "sea", "pond"], c: 0 },
+                { q: "A domestic animal lives with people. It’s not wild; it’s ______.", opts: ["tame", "dangerous", "feral", "wild"], c: 0 },
+                { q: "1,000,000,000 is one billion. It’s a thousand ______.", opts: ["million", "thousand", "hundred", "trillion"], c: 0 },
+                { q: "A crocodile is a reptile that lives in water and on land. It’s a ______.", opts: ["predator", "prey", "herbivore", "scavenger"], c: 0 },
+                { q: "The giraffe is the tallest animal. Its long neck helps it eat leaves from tall ______.", opts: ["trees", "bushes", "grass", "flowers"], c: 0 },
+                { q: "A pack is a group of wolves. A group of lions is a ______.", opts: ["pride", "herd", "flock", "school"], c: 0 },
+                { q: "A school is a group of fish. They swim together for ______.", opts: ["safety", "food", "fun", "speed"], c: 0 },
+                { q: "A flock is a group of birds. Birds ______ together.", opts: ["fly", "run", "swim", "walk"], c: 0 },
+                { q: "A herd is a group of cows. Cows are ______ animals.", opts: ["grazing", "carnivorous", "nocturnal", "solitary"], c: 0 },
+                { q: "A swarm is a group of bees. Bees live in a ______.", opts: ["hive", "nest", "burrow", "cave"], c: 0 },
+                { q: "3/4 is read as three quarters. It’s also 0.75 or 75 ______.", opts: ["percent", "decimal", "fraction", "all are correct"], c: 3 },
+                { q: "0.5 is read as point five or half. It’s ______ percent.", opts: ["fifty", "five", "point five", "zero"], c: 0 },
+                { q: "25% is twenty-five percent. It’s the same as a ______.", opts: ["quarter", "third", "half", "tenth"], c: 0 },
+                { q: "The population of Saudi Arabia is about 35 million. 35 million is 35,000,______.", opts: ["000", "thousand", "hundred", "billion"], c: 0 },
+                { q: "The highest peak in Saudi Arabia is about 3,000 metres above sea level. That’s 3 ______.", opts: ["kilometres", "miles", "feet", "yards"], c: 0 },
+                { q: "A plain is a large area of flat land. It’s often used for ______.", opts: ["farming", "skiing", "swimming", "climbing"], c: 0 },
+                { q: "A valley is low land between hills. A river often flows through a ______.", opts: ["valley", "plain", "plateau", "desert"], c: 0 },
+                { q: "An island is land completely surrounded by water. Saudi Arabia has some in the ______ Sea.", opts: ["Red", "Dead", "Arabian", "Mediterranean"], c: 0 },
+                { q: "A strait is a narrow waterway between two land masses. The ______ of Hormuz is famous.", opts: ["Strait", "Bay", "Gulf", "Channel"], c: 0 },
+                { q: "The Arctic is the frozen region around the North Pole. It’s very ______.", opts: ["cold", "hot", "wet", "dry"], c: 0 },
+                { q: "A zebra has stripes. Stripes are like black and white ______.", opts: ["lines", "dots", "circles", "squares"], c: 0 },
+                { q: "An invertebrate has no backbone. A worm is an ______.", opts: ["invertebrate", "vertebrate", "mammal", "reptile"], c: 0 },
+                { q: "A mammal is warm-blooded and has hair or fur. Humans are ______.", opts: ["mammals", "reptiles", "birds", "fish"], c: 0 },
+                { q: "The cheetah is the fastest land animal. It can run up to 120 km/h. That’s extremely ______.", opts: ["fast", "slow", "big", "small"], c: 0 },
+                { q: "A parrot can mimic human speech. It’s a talking ______.", opts: ["bird", "fish", "reptile", "mammal"], c: 0 },
+                { q: "A nocturnal animal sleeps during the day. It is active at ______.", opts: ["night", "noon", "dawn", "dusk"], c: 0 },
+                { q: "The Pacific Ocean is the largest ocean. It covers about one-third of the Earth’s ______.", opts: ["surface", "land", "air", "water"], c: 0 },
+                { q: "The Nile is the longest river. It flows through several African ______.", opts: ["countries", "continents", "states", "cities"], c: 0 },
+                { q: "Mount Everest is the highest mountain. Its peak is at 8,848 metres above sea ______.", opts: ["level", "water", "ground", "line"], c: 0 },
+                { q: "An earthquake is a sudden shaking of the ground. It’s measured on the ______ scale.", opts: ["Richter", "Fahrenheit", "Celsius", "Beaufort"], c: 0 },
+                { q: "A volcano erupts lava. Lava is hot liquid ______.", opts: ["rock", "water", "metal", "gas"], c: 0 },
+                { q: "A tsunami is a giant wave caused by an earthquake. It can cause great ______.", opts: ["destruction", "joy", "peace", "happiness"], c: 0 },
+                { q: "A hurricane is a rotating storm with high winds. It’s also called a ______ in some regions.", opts: ["typhoon", "earthquake", "volcano", "flood"], c: 0 },
+                { q: "The Rub' al Khali is a desert in Saudi Arabia. Its name means “______ Quarter”.", opts: ["Empty", "Full", "Big", "Small"], c: 0 },
+                { q: "An ant is a small insect that lives in a colony. A colony has a ______.", opts: ["queen", "king", "president", "leader"], c: 0 },
+                { q: "A lizard can regrow its tail. Regrow means grow ______.", opts: ["again", "faster", "bigger", "smaller"], c: 0 }
+            ]
+        },
+        "Unit 12": {
+            title: "Celebrations, Weather & Seasons – Synonyms & Paraphrase",
+            questions: [
+                { q: "In Saudi Arabia, summer is very hot. The temperature can be over 50°C. It’s ______.", opts: ["scorching", "freezing", "mild", "cool"], c: 0 },
+                { q: "At weddings, people give presents. A present is a ______.", opts: ["gift", "problem", "exam", "homework"], c: 0 },
+                { q: "Rain is water falling from the sky. It’s also called ______.", opts: ["precipitation", "snow", "hail", "sleet"], c: 0 },
+                { q: "Autumn comes after summer. It’s also called ______.", opts: ["fall", "spring", "winter", "summer"], c: 0 },
+                { q: "A celebration is a party for a special day. It’s a time of ______.", opts: ["joy", "sadness", "work", "study"], c: 0 },
+                { q: "In northern Saudi Arabia, snow sometimes falls in winter. Snow is frozen ______.", opts: ["water", "ice", "rain", "cloud"], c: 0 },
+                { q: "A holiday is a day off work or school. It’s a day for ______.", opts: ["rest", "work", "study", "stress"], c: 0 },
+                { q: "Saudi National Day is on 23 September. It commemorates the country’s ______.", opts: ["unification", "independence", "birth", "victory"], c: 0 },
+                { q: "Ramadan is the holy month of fasting. Muslims fast from dawn to ______.", opts: ["sunset", "midnight", "noon", "evening"], c: 0 },
+                { q: "During Eid, people wear new clothes. “New” is the opposite of ______.", opts: ["old", "fresh", "modern", "used"], c: 0 },
+                { q: "The Ardah is a traditional Saudi dance. It’s performed with ______.", opts: ["swords", "drums", "flags", "all are involved"], c: 3 },
+                { q: "In autumn, the weather is cool. Cool means it’s not hot, but not ______.", opts: ["cold", "warm", "freezing", "boiling"], c: 0 },
+                { q: "Summer is the hottest season. Hottest is the ______ form of hot.", opts: ["superlative", "comparative", "positive", "negative"], c: 0 },
+                { q: "Winter is the coldest season. Coldest is the ______ form of cold.", opts: ["superlative", "comparative", "positive", "negative"], c: 0 },
+                { q: "A storm has strong wind and rain. It’s a severe ______ event.", opts: ["weather", "climate", "season", "temperature"], c: 0 },
+                { q: "Drizzle is light rain. It’s just a few ______.", opts: ["drops", "showers", "storms", "floods"], c: 0 },
+                { q: "When the sky is overcast, it’s completely covered with clouds. There’s no ______.", opts: ["sun", "rain", "wind", "snow"], c: 0 },
+                { q: "A drought is a long period with no rain. It causes ______.", opts: ["dryness", "flooding", "storms", "snowfall"], c: 0 },
+                { q: "A flood is when there’s too much water on the land. It can be caused by heavy ______.", opts: ["rain", "snow", "wind", "sun"], c: 0 },
+                { q: "A rainbow appears after rain when the sun shines. It shows the colours of the ______.", opts: ["spectrum", "rain", "cloud", "sky"], c: 0 },
+                { q: "In Riyadh, summer temperatures can reach 50°C. 50°C is very ______.", opts: ["high", "low", "average", "mild"], c: 0 },
+                { q: "People drink a lot of water in hot weather to avoid ______.", opts: ["dehydration", "hunger", "sleep", "heat"], c: 0 },
+                { q: "I wear a jumper in cold weather. A jumper is a warm ______.", opts: ["sweater", "shirt", "trouser", "shoe"], c: 0 },
+                { q: "Mild weather is not extreme. It’s pleasant and ______.", opts: ["moderate", "boiling", "freezing", "scorching"], c: 0 },
+                { q: "A feast is a large, special meal. It’s often for a ______.", opts: ["celebration", "punishment", "examination", "meeting"], c: 0 },
+                { q: "We had a barbecue on the beach. We cooked food on a ______.", opts: ["grill", "stove", "fire", "oven"], c: 0 },
+                { q: "During Ramadan, Muslims fast. Fasting means they don’t eat or drink from dawn to ______.", opts: ["sunset", "sunrise", "noon", "midnight"], c: 0 },
+                { q: "Eid al-Fitr marks the end of Ramadan. Fitr means ______.", opts: ["breaking the fast", "fasting", "praying", "pilgrimage"], c: 0 },
+                { q: "Hajj is the pilgrimage to Makkah. Pilgrimage is a ______ journey.", opts: ["religious", "business", "holiday", "adventure"], c: 0 },
+                { q: "During Hajj, pilgrims wear white clothes. White symbolizes ______.", opts: ["purity", "sadness", "wealth", "power"], c: 0 },
+                { q: "We decorate homes with lights for celebrations. Lights make the house ______.", opts: ["bright", "dark", "quiet", "small"], c: 0 },
+                { q: "A present is a gift given on a special occasion. Another word is ______.", opts: ["offering", "card", "letter", "note"], c: 0 },
+                { q: "We send cards to congratulate someone. Cards convey our ______.", opts: ["wishes", "orders", "demands", "instructions"], c: 0 },
+                { q: "The opposite of sunny is cloudy. Cloudy means the sun is ______.", opts: ["hidden", "bright", "shining", "strong"], c: 0 },
+                { q: "A blizzard is a severe snowstorm. It has strong ______ and heavy snow.", opts: ["winds", "rain", "sun", "light"], c: 0 },
+                { q: "A tornado is a rotating column of air. It’s also called a ______.", opts: ["twister", "hurricane", "blizzard", "flood"], c: 0 },
+                { q: "The weather forecast says it will be sunny. Forecast means ______.", opts: ["prediction", "fact", "law", "rule"], c: 0 },
+                { q: "I usually carry an umbrella in case it rains. An umbrella protects you from the ______.", opts: ["rain", "sun", "wind", "cold"], c: 0 },
+                { q: "Foggy weather means you can’t see far. Fog is a thick ______ near the ground.", opts: ["cloud", "rain", "smoke", "dust"], c: 0 },
+                { q: "The wind is blowing strongly. Blowing means moving ______.", opts: ["air", "water", "fire", "earth"], c: 0 },
+                { q: "Leaves fall in autumn. Fall means they drop from the ______.", opts: ["trees", "sky", "ground", "water"], c: 0 },
+                { q: "Flowers bloom in spring. Bloom means they ______.", opts: ["open", "close", "die", "grow"], c: 0 },
+                { q: "People enjoy outdoor activities in spring. Spring weather is ______.", opts: ["pleasant", "extreme", "hot", "cold"], c: 0 },
+                { q: "Eid al-Adha commemorates Prophet Ibrahim’s sacrifice. Adha means ______.", opts: ["sacrifice", "feast", "prayer", "pilgrimage"], c: 0 },
+                { q: "During Hajj, pilgrims go to Makkah. Makkah is a ______ city.", opts: ["holy", "big", "new", "small"], c: 0 },
+                { q: "Jeddah in August is very humid. Humid means the air is full of ______.", opts: ["moisture", "dust", "smoke", "heat"], c: 0 },
+                { q: "A thobe is a traditional garment for Saudi men. It’s a long white ______.", opts: ["robe", "shirt", "trouser", "jacket"], c: 0 },
+                { q: "Saudi National Day is on 23 September. It marks the founding of the modern Saudi ______.", opts: ["state", "city", "family", "company"], c: 0 },
+                { q: "A get-together is a small informal party. You can have it at ______.", opts: ["home", "school", "work", "a park"], c: 0 },
+                { q: "The sky is dark at night. Dark is the opposite of ______.", opts: ["bright", "clear", "sunny", "cloudy"], c: 0 }
+            ]
+        }
+    };
+
+    const tabContainer = document.getElementById('tab-container');
+    const unitsContainer = document.getElementById('units-container');
+
+    Object.keys(vocabData).forEach((unit, unitIdx) => {
+        const tab = document.createElement('button');
+        tab.className = 'tab' + (unitIdx === 0 ? ' active' : '');
+        tab.textContent = unit;
+        tab.dataset.unit = unit;
+        tab.addEventListener('click', () => switchTab(unit));
+        tabContainer.appendChild(tab);
+
+        const unitDiv = document.createElement('div');
+        unitDiv.className = 'unit-section' + (unitIdx === 0 ? ' active' : '');
+        unitDiv.id = 'unit-' + unit.replace(' ', '_');
+        const data = vocabData[unit];
+        const questionsHTML = data.questions.map((q, qIdx) => {
+            const optsHTML = q.opts.map((opt, oIdx) =>
+                `<label><input type="radio" name="q_${unitIdx}_${qIdx}" value="${oIdx}"> ${opt}</label>`
+            ).join('');
+            return `<div class="question"><p>${q.q}</p><div class="options">${optsHTML}</div><div class="feedback" id="fb_${unitIdx}_${qIdx}"></div></div>`;
+        }).join('');
+        unitDiv.innerHTML = `
+            <h2>${unit}: ${data.title}</h2>
+            ${questionsHTML}
+            <button class="btn" onclick="checkUnit('${unit}')">Check ${unit}</button>
+            <div class="score-box" id="score-${unit.replace(' ', '_')}"></div>
+        `;
+        unitsContainer.appendChild(unitDiv);
+    });
+
+    function switchTab(unit) {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.unit-section').forEach(s => s.classList.remove('active'));
+        document.querySelector(`.tab[data-unit="${unit}"]`).classList.add('active');
+        document.getElementById('unit-' + unit.replace(' ', '_')).classList.add('active');
+    }
+
+    function checkUnit(unit) {
+        const unitIdx = Object.keys(vocabData).indexOf(unit);
+        const data = vocabData[unit];
+        let score = 0;
+        data.questions.forEach((q, qIdx) => {
+            const sel = document.querySelector(`input[name="q_${unitIdx}_${qIdx}"]:checked`);
+            const fb = document.getElementById(`fb_${unitIdx}_${qIdx}`);
+            if (sel && parseInt(sel.value) === q.c) {
+                fb.innerHTML = '<span class="correct">✔ Correct</span>';
+                score++;
+            } else {
+                fb.innerHTML = `<span class="incorrect">✘ Correct: ${q.opts[q.c]}</span>`;
+            }
+        });
+        document.getElementById('score-' + unit.replace(' ', '_')).textContent =
+            `Score: ${score} / ${data.questions.length}`;
+    }
+
+    function showReport() {
+        const studentId = document.getElementById('student-id-input').value.trim();
+        if (!studentId) { alert('Please enter your Student ID first.'); return; }
+        let reportHTML = `<strong>Student ID:</strong> ${studentId}<br>`;
+        Object.keys(vocabData).forEach(unit => {
+            const scoreEl = document.getElementById('score-' + unit.replace(' ', '_'));
+            const scoreText = scoreEl ? scoreEl.textContent.replace('Score: ', '') : 'Not attempted';
+            reportHTML += `<strong>${unit}:</strong> ${scoreText}<br>`;
+        });
+        document.getElementById('report-content').innerHTML = reportHTML;
+        document.getElementById('report-box').style.display = 'block';
+        document.getElementById('report-box').scrollIntoView({ behavior: 'smooth' });
+    }
+</script>
+</body>
+</html>
